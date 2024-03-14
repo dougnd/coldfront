@@ -34,7 +34,7 @@
       <table class="table table-sm table-hover">
         <thead>
           <tr>
-            <th><input type="checkbox" class="check" id="selectAll"></th>
+            <td><input type="checkbox" class="check" id="selectAll" aria-label="select all users"></td>
             <th scope="col">#</th>
             <th scope="col">Username</th>
             <th scope="col">First Name</th>
@@ -48,11 +48,11 @@
             <tr>
               <td>{{ form.selected }}</td>
               <td>{{ forloop.counter }}</td>
-              <td>{{ form.username.value }}</td>
+              <td><label for="{{form.selected.auto_id}}">{{ form.username.value }}</label></td>
               <td>{{ form.first_name.value }}</td>
               <td>{{ form.last_name.value }}</td>
               <td>{{ form.email.value }}</td>
-              <td>{{ form.role }}</td>
+              <td><div class="sr-only">{{ form.role.label_tag }}</div>{{ form.role }}</td>
             </tr>
           {% endfor %}
         </tbody>

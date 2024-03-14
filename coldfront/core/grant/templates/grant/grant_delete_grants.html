@@ -21,9 +21,9 @@ Delete Grants from Project
           <table class="table table-sm table-hover">
             <thead>
               <tr>
-                <th scope="col">
-                  <input type="checkbox" class="check" id="selectAll">
-                </th>
+                <td>
+                  <input type="checkbox" class="check" id="selectAll" aria-label="select all grants">
+                </td>
                 <th scope="col">Title</th>
                 <th scope="col">Grant Number</th>
                 <th scope="col">Grant End Date</th>
@@ -33,7 +33,7 @@ Delete Grants from Project
               {% for form in formset %}
                 <tr>
                   <td>{{ form.selected }}</td>
-                  <td>{{ form.title.value }}</td>
+                  <td><label for="{{ form.selected.auto_id }}">{{ form.title.value }}</label></td>
                   <td>{{ form.grant_number.value }}</td>
                   <td>{{ form.grant_end.value }}</td>
                 </tr>

@@ -22,9 +22,9 @@ Delete Publications from Project
           <table class="table table-sm table-hover">
             <thead>
               <tr>
-                <th>
-                  <input type="checkbox" class="check" id="selectAll">
-                </th>
+                <td>
+                  <input type="checkbox" class="check" id="selectAll" aria-label="select all">
+                </td>
                 <th scope="col">Title</th>
                 <th scope="col">Year</th>
               </tr>
@@ -33,7 +33,7 @@ Delete Publications from Project
               {% for form in formset %}
               <tr>
                 <td>{{ form.selected }}</td>
-                <td>{{ form.title.value }}</td>
+                <td><label for="{{ form.selected.auto_id }}">{{ form.title.value }}</label></td>
                 <td>{{ form.year.value }}</td>
               </tr>
               {% endfor %}
