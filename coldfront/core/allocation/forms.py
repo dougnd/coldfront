@@ -59,11 +59,11 @@ class AllocationUpdateForm(forms.Form):
         queryset=AllocationStatusChoice.objects.all().order_by(Lower("name")), empty_label=None)
     start_date = forms.DateField(
         label='Start Date',
-        widget=forms.DateInput(attrs={'class': 'datepicker'}),
+        widget=forms.DateInput(attrs={'type': 'date'}),
         required=False)
     end_date = forms.DateField(
         label='End Date',
-        widget=forms.DateInput(attrs={'class': 'datepicker'}),
+        widget=forms.DateInput(attrs={'type': 'date'}),
         required=False)
     description = forms.CharField(max_length=512,
                                   label='Description',
@@ -136,11 +136,11 @@ class AllocationSearchForm(forms.Form):
         label='Allocation Attribute Value', max_length=100, required=False)
     end_date = forms.DateField(
         label='End Date',
-        widget=forms.DateInput(attrs={'class': 'datepicker'}),
+        widget=forms.DateInput(attrs={'type': 'date'}),
         required=False)
     active_from_now_until_date = forms.DateField(
         label='Active from Now Until Date',
-        widget=forms.DateInput(attrs={'class': 'datepicker'}),
+        widget=forms.DateInput(attrs={'type': 'date'}),
         required=False)
     status = forms.ModelMultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
@@ -246,9 +246,9 @@ class AllocationChangeForm(forms.Form):
 
 class AllocationChangeNoteForm(forms.Form):
         notes = forms.CharField(
-            max_length=512, 
-            label='Notes', 
-            required=False, 
+            max_length=512,
+            label='Notes',
+            required=False,
             widget=forms.Textarea,
             help_text="Leave any feedback about the allocation change request.")
 
@@ -257,5 +257,5 @@ class AllocationAttributeCreateForm(forms.ModelForm):
         model = AllocationAttribute
         fields = '__all__'
     def __init__(self, *args, **kwargs):
-        super(AllocationAttributeCreateForm, self).__init__(*args, **kwargs) 
+        super(AllocationAttributeCreateForm, self).__init__(*args, **kwargs)
         self.fields['allocation_attribute_type'].queryset = self.fields['allocation_attribute_type'].queryset.order_by(Lower('name'))

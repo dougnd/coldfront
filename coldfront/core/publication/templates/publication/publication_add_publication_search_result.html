@@ -9,9 +9,9 @@
           <table class="table table-sm table-hover">
             <thead>
               <tr>
-                <th>
-                  <input type="checkbox" class="check" id="selectAll">
-                </th>
+                <td>
+                  <input type="checkbox" class="check" id="selectAll" aria-label="select all">
+                </td>
                 <th scope="col">#</th>
                 <th scope="col">Publication</th>
                 <th scope="col">Unique ID</th>
@@ -23,8 +23,8 @@
                   <td>{{ form.selected }}</td>
                   <td>{{ forloop.counter }}</td>
                   <td>
-                    <strong>Title: </strong>{{ form.title.value }} <br>
-                    <strong>Author: </strong>{{ form.author.value }} <br> 
+                    <label for="{{ form.selected.auto_id }}"><strong>Title: </strong>{{ form.title.value }}</label> <br>
+                    <strong>Author: </strong>{{ form.author.value }} <br>
                     <strong>Year: </strong>{{ form.year.value }} <br>
                     <strong>Journal: </strong>{{ form.journal.value }}
                   </td>

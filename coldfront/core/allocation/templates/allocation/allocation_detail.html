@@ -40,10 +40,10 @@ Allocation Detail
       </div>
     </div>
     {% else %}
-      <h3><i class="fas fa-list" aria-hidden="true"></i> Allocation Information</h3>   
+      <h3><i class="fas fa-list" aria-hidden="true"></i> Allocation Information</h3>
     {% endif %}
   </div>
-  
+
   <div class="card-body">
     <form method="post">
       {% csrf_token %}
@@ -76,7 +76,13 @@ Allocation Detail
             <td>{{ allocation.justification }}</td>
           </tr>
           <tr>
-            <th scope="row" class="text-nowrap">Status:</th>
+            <th scope="row" class="text-nowrap">
+              {% if request.user.is_superuser %}
+                {{ form.status.label_tag }}
+              {% else %}
+                Status:
+              {% endif %}
+            </th>
             <td>
               {% if request.user.is_superuser %}
                 {{ form.status }}
@@ -86,7 +92,13 @@ Allocation Detail
             </td>
           </tr>
           <tr>
-            <th scope="row" class="text-nowrap">Start Date:</th>
+            <th scope="row" class="text-nowrap">
+              {% if request.user.is_superuser %}
+                {{ form.start_date.label_tag }}
+              {% else %}
+                Start Date:
+              {% endif %}
+            </th>
             <td>
               {% if request.user.is_superuser %}
                 {{ form.start_date }}
@@ -96,7 +108,13 @@ Allocation Detail
             </td>
           </tr>
           <tr>
-            <th scope="row" class="text-nowrap">End Date:</th>
+            <th scope="row" class="text-nowrap">
+              {% if request.user.is_superuser %}
+                {{ form.end_date.label_tag }}
+              {% else %}
+                End Date:
+              {% endif %}
+            </th>
             <td>
               {% if request.user.is_superuser %}
                 {{ form.end_date }}
@@ -117,7 +135,13 @@ Allocation Detail
             </td>
           </tr>
           <tr>
-            <th scope="row" class="text-nowrap">Description:</th>
+            <th scope="row" class="text-nowrap">
+              {% if request.user.is_superuser %}
+                {{ form.description.label_tag }}
+              {% else %}
+                Description:
+              {% endif %}
+            </th>
             <td>
               {% if request.user.is_superuser %}
                 {{ form.description }}
@@ -136,7 +160,9 @@ Allocation Detail
           </tr>
           <tr>
             {% if request.user.is_superuser or request.user.is_staff %}
-              <th scope="row" class="text-nowrap">Lock/Unlock Allocation:</th>
+              <th scope="row" class="text-nowrap">
+                {{ form.is_locked.label_tag }}
+              </th>
               <td>
                 {{ form.is_locked }}
               </td>
@@ -152,7 +178,9 @@ Allocation Detail
           </tr>
           {% if request.user.is_superuser or request.user.is_staff %}
             <tr>
-              <th scope="row" class="text-nowrap">Allow Change Requests:</th>
+              <th scope="row" class="text-nowrap">
+                {{ form.is_changeable.label_tag }}
+              </th>
               <td>
                 {{ form.is_changeable }}
               </td>
@@ -239,7 +267,7 @@ Allocation Detail
   <div class="card-header">
     <h3 class="d-inline"><i class="fas fa-info-circle" aria-hidden="true"></i> Allocation Change Requests</h3> <span class="badge badge-secondary">{{allocation_changes.count}}</span>
   </div>
-  
+
   <div class="card-body">
     {% if allocation_changes %}
       <div class="table-responsive">
@@ -417,7 +445,6 @@ Allocation Detail
       });
     }
   }
-  $(".datepicker").flatpickr();
   $(document).on('click', '.confirm-activate', function(){
     var attributes_num = {{ attributes | length }};
     if (attributes_num == 0) {

@@ -20,9 +20,13 @@ class GrantForm(ModelForm):
             'percent_credit': 'Percent credit as entered in the sponsored projects form for grant submission as financial credit to the department/unit in the credit distribution section',
             'direct_funding': 'Funds budgeted specifically for {} services, hardware, software, and/or personnel'.format(CENTER_NAME)
         }
+        widgets = {
+            'grant_start': forms.DateInput(attrs={'type': 'date'}),
+            'grant_end': forms.DateInput(attrs={'type': 'date'}),
+        }
 
     def __init__(self, *args, **kwargs):
-        super(GrantForm, self).__init__(*args, **kwargs) 
+        super(GrantForm, self).__init__(*args, **kwargs)
         self.fields['funding_agency'].queryset = self.fields['funding_agency'].queryset.order_by('name')
 
 

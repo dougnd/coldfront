@@ -27,10 +27,17 @@ from coldfront.core.publication.forms import (
     PublicationExportForm,
 )
 from coldfront.core.publication.models import Publication, PublicationSource
-from doi2bib import crossref
 
 
 MANUAL_SOURCE = 'manual'
+
+
+def get_bib_from_doi(doi):
+    url = f'https://doi.org/{doi}'
+    r = requests.get(url,
+                     timeout=8,
+                     headers={'Accept': 'application/x-bibtex; charset=utf-8'})
+    return r.status_code == 200, r.text
 
 
 class PublicationSearchView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
@@ -100,7 +107,9 @@ class PublicationSearchResultView(LoginRequiredMixin, UserPassesTestMixin, Templ
         for source in PublicationSource.objects.all():
             if source.name == 'doi':
                 try:
-                    status, bib_str = crossref.get_bib(unique_id)
+                    found, bib_str = get_bib_from_doi(unique_id)
+                    if not found:
+                        continue
                     bp = BibTexParser(interpolate_strings=False)
                     bib_database = bp.parse(bib_str)
                     bib_json = bib_database.entries[0]
@@ -216,7 +225,7 @@ class PublicationAddView(LoginRequiredMixin, UserPassesTestMixin, View):
         if formset.is_valid():
             for form in formset:
                 form_data = form.cleaned_data
-                
+
                 if form_data['selected']:
                     source_obj = PublicationSource.objects.get(
                         pk=form_data.get('source_pk'))
@@ -230,8 +239,8 @@ class PublicationAddView(LoginRequiredMixin, UserPassesTestMixin, View):
                             'author':author,
                             'year':form_data.get('year'),
                             'journal':form_data.get('journal'),
-                            'source':source_obj                            
-                        }                        
+                            'source':source_obj
+                        }
                     )
                     if created:
                         publications_added += 1
@@ -471,7 +480,9 @@ class PublicationExportPublicationsView(LoginRequiredMixin, UserPassesTestMixin,
                     )
                     print("id is"+publication_obj.display_uid())
                     temp_id = publication_obj.display_uid()
-                    status, bib_str = crossref.get_bib(publication_obj.display_uid())
+                    found, bib_str = get_bib_from_doi(publication_obj.display_uid())
+                    if not found:
+                        continue
                     bp = BibTexParser(interpolate_strings=False)
                     bib_database = bp.parse(bib_str)
                     bib_text += bib_str
