@@ -212,7 +212,7 @@ class AllocationDetailView(LoginRequiredMixin, UserPassesTestMixin, TemplateView
             allocation_obj.status = AllocationStatusChoice.objects.get(name='Active')
         elif action == 'deny':
             allocation_obj.status = AllocationStatusChoice.objects.get(name='Denied')
-           
+
         if old_status != 'Active' == allocation_obj.status.name:
             if not allocation_obj.start_date:
                 allocation_obj.start_date = datetime.datetime.now()
@@ -237,7 +237,7 @@ class AllocationDetailView(LoginRequiredMixin, UserPassesTestMixin, TemplateView
             allocation_obj.end_date = None
             allocation_obj.save()
 
-            if allocation_obj.status.name == ['Denied', 'Revoked']:
+            if allocation_obj.status.name in ['Denied', 'Revoked']:
                 allocation_disable.send(
                     sender=self.__class__, allocation_pk=allocation_obj.pk)
                 allocation_users = allocation_obj.allocationuser_set.exclude(
