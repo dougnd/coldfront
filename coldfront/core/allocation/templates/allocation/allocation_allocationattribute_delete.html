@@ -21,9 +21,9 @@ Delete Allocation Attributes from Allocation
           <table class="table table-sm table-hover">
             <thead>
               <tr>
-                <th>
-                  <input type="checkbox" class="check" id="selectAll">
-                </th>
+                <td>
+                  <input type="checkbox" class="check" id="selectAll" aria-label="Select all">
+                </td>
                 <th scope="col">Name</th>
                 <th scope="col">Value</th>
               </tr>
@@ -32,7 +32,7 @@ Delete Allocation Attributes from Allocation
               {% for form in formset %}
                 <tr>
                   <td>{{ form.selected }}</td>
-                  <td>{{ form.name.value }}</td>
+                  <td><label for="{{ form.selected.auto_id }}">{{ form.name.value }}</label></td>
                   <td>{{ form.value.value }}</td>
                 </tr>
               {% endfor %}
